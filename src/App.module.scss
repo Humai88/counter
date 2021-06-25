@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500;700&display=swap");
+@import "./scss/global.scss";
+* {
+  font-family: "Comfortaa";
+}
+.mainWrapper {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.wrapper {
+  border: 5px solid $color-main;
+  width: 45rem;
+  height: 35rem;
+  margin: 0 auto;
+  margin-top: 5rem;
+  background-color: $color-light;
+}
+.buttonsWrapper {
+  border: 5px solid $color-main;
+  position: absolute;
+  width: 39rem;
+  height: 6rem;
+  margin-left: 2.6rem;
+  margin-top: 26.5rem;
+  display: flex;
+  justify-content: space-around;
+}

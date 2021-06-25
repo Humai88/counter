@@ -1,0 +1,21 @@
+@import "./../scss/global.scss";
+.btn {
+  width: 13rem;
+  height: 2.5rem;
+  margin-top: 1.7rem;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  border-radius: 10px;
+  border: none !important;
+  background-color: $color-main;
+  color: $color-light;
+  transition: 0.3s;
+}
+
+.btn:disabled {
+  background-color: #608a95;
+  color: $color-light;
+}
+.btn:active {
+  transform: scale(0.9);
+}
