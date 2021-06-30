@@ -2,7 +2,7 @@ import styles from "./Counter.module.scss";
 import { Card } from "./Card";
 
 type PropsType = {
-  value: number;
+  value: number | string;
   limit: boolean;
 };
 

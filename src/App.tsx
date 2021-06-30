@@ -3,10 +3,12 @@ import { Counter } from "./components/Counter";
 import { Card } from "./components/Card";
 import styles from "./App.module.scss";
 import { Button } from "./components/Button";
+import { SetCounter } from "./components/SetCounter";
 
 function App() {
   let [value, setValue] = useState<number>(0);
-  let [limit, setLimit] = useState<boolean>(false);
+  let [error, setError] = useState<boolean>(false);
+  let [limit, setLimit] = useState<number>(0);
 
   useEffect(() => {
     let valueAsString = localStorage.getItem("counterValue");
@@ -20,44 +22,37 @@ function App() {
     localStorage.setItem("counterValue", JSON.stringify(value));
   }, [value]);
 
-  const setValueCallback = () => {
+  const increaseValue = () => {
     const nextValue = value + 1;
     setValue(nextValue);
-    if (nextValue >= 5) {
-      setLimit(true);
+    if (nextValue === limit) {
+      setError(true);
     }
   };
 
   const resetValueCallback = () => {
     setValue(0);
-    setLimit(false);
+    setError(false);
+  };
+
+  const onSetValues = (
+    startValue: number,
+    maxValue: number,
+    warning: string
+  ) => {
+    setValue(startValue);
+    setLimit(maxValue);
   };
 
   return (
     <div className={styles.mainWrapper}>
       <Card className={styles.wrapper}>
-        <Counter limit={limit} value={value} />
-        <Card className={styles.buttonsWrapper}>
-          <Button
-            disabled={limit}
-            callback={setValueCallback}
-            title="Increase"
-          />
-          <Button
-            disabled={value === 0}
-            callback={resetValueCallback}
-            title="Reset"
-          />
-        </Card>
+        <SetCounter onSetValues={onSetValues} />
       </Card>
       <Card className={styles.wrapper}>
-        <Counter limit={limit} value={value} />
+        <Counter limit={error} value={value} />
         <Card className={styles.buttonsWrapper}>
-          <Button
-            disabled={limit}
-            callback={setValueCallback}
-            title="Increase"
-          />
+          <Button disabled={error} callback={increaseValue} title="Increase" />
           <Button
             disabled={value === 0}
             callback={resetValueCallback}

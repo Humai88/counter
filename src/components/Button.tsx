@@ -7,16 +7,18 @@ type DefaultButtonPropsType = DetailedHTMLProps<
 >;
 type PropsType = DefaultButtonPropsType & {
   title: string;
-  callback: () => void;
+  callback?: () => void;
 };
 
 export const Button: React.FC<PropsType> = ({
   title,
   callback,
+  className,
   ...restProps
 }) => {
+  const finalClassName = `${s.btn} ${className}`;
   return (
-    <button className={s.btn} onClick={callback} {...restProps}>
+    <button className={finalClassName} onClick={callback} {...restProps}>
       {title}
     </button>
   );
