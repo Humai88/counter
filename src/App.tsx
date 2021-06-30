@@ -39,9 +39,15 @@ function App() {
     setValue(startValue);
     setLimit(maxValue);
   };
-  const onSetWarning = (warning: string) => {
-    setValue(warning);
+
+  const onSetWarning = (warning: boolean) => {
+    if (warning) {
+      setValue("Enter values and press SET");
+    } else {
+      setValue("Incorrect value!");
+    }
   };
+
   return (
     <div className={styles.mainWrapper}>
       <Card className={styles.wrapper}>

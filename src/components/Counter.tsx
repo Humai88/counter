@@ -1,13 +1,13 @@
 import styles from "./Counter.module.scss";
 import { Card } from "./Card";
+import React from "react";
 
 type PropsType = {
   value: number | string;
   limit: boolean;
-  warning?: string | number;
 };
 
-export const Counter: React.FC<PropsType> = ({ value, limit, warning }) => {
+export const Counter: React.FC<PropsType> = ({ value, limit }) => {
   const finalStyles = `${styles.counter} ${limit ? styles.limit : ""}`;
   return (
     <Card className={styles.wrapper}>

@@ -38,7 +38,8 @@ input {
 
 .inValid {
   background-color: $color-red;
-  color: $color-light;
+  border: 1px solid rgb(248, 76, 76);
+  color: rgb(248, 76, 76);
 }
 .btnWrapper {
   border: 5px solid $color-main;
@@ -46,7 +47,6 @@ input {
   width: 39rem;
   height: 6rem;
   margin: 0 auto;
-  // margin-top: 26.5rem;
 }
 .setBtn {
   margin-left: 70%;

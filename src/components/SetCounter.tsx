@@ -5,7 +5,7 @@ import { Button } from "./Button";
 
 type PropsType = {
   onSetValues: (enteredMaxValue: number, enteredStartValue: number) => void;
-  onSetWarning: (warning: string) => void;
+  onSetWarning: (warning: boolean) => void;
 };
 
 export const SetCounter: React.FC<PropsType> = ({
@@ -16,10 +16,8 @@ export const SetCounter: React.FC<PropsType> = ({
   const [enteredMaxValue, setEnteredMaxValue] = useState<number>(
     enteredStartValue + 1
   );
-  const [maxValueIsValid, setMaxValueIsValid] = useState<boolean>(true);
-  const [startValueIsValid, setStartValueIsValid] = useState<boolean>(true);
+  const [valueIsValid, setValueIsValid] = useState<boolean>(true);
   const [disable, setDisable] = useState<boolean>(true);
-  let [warning, setWarning] = useState<string>("Enter values and press SET");
 
   useEffect(() => {
     let valueAsString = localStorage.getItem("max-value");
@@ -49,15 +47,11 @@ export const SetCounter: React.FC<PropsType> = ({
     let enteredMaxtVal = +e.currentTarget.value;
     setEnteredMaxValue(enteredMaxtVal);
     if (enteredMaxtVal <= enteredStartValue) {
-      setMaxValueIsValid(false);
-      setStartValueIsValid(false);
-      setWarning("Incorrect value!");
+      setValueIsValid(false);
     } else {
-      setMaxValueIsValid(true);
-      setStartValueIsValid(true);
-      setWarning("Enter values and press SET");
+      setValueIsValid(true);
     }
-    onSetWarning(warning);
+    onSetWarning(valueIsValid);
     setDisable(false);
   };
 
@@ -65,15 +59,12 @@ export const SetCounter: React.FC<PropsType> = ({
     let enteredStartVal = +e.currentTarget.value;
     setEnteredStartValue(enteredStartVal);
     if (enteredStartVal < 0) {
-      setStartValueIsValid(false);
-      setWarning("Incorrect value!");
+      setValueIsValid(false);
     } else {
-      setStartValueIsValid(true);
-      setWarning("Enter values and press SET");
-      setMaxValueIsValid(true);
+      setValueIsValid(true);
     }
 
-    onSetWarning(warning);
+    onSetWarning(valueIsValid);
     setDisable(false);
   };
 
@@ -82,20 +73,14 @@ export const SetCounter: React.FC<PropsType> = ({
     setDisable(true);
   };
 
-  const finalMaxValueStyles = `${styles.input} ${
-    !maxValueIsValid ? styles.inValid : ""
-  }`;
-
-  const finalStartValueStyles = `${styles.input} ${
-    !startValueIsValid ? styles.inValid : ""
-  }`;
+  const finalStyles = `${styles.input} ${!valueIsValid ? styles.inValid : ""}`;
 
   return (
     <Card className={styles.wrapper}>
       <div>
         <label htmlFor="maxValue">Max value:</label>
         <input
-          className={finalMaxValueStyles}
+          className={finalStyles}
           type="number"
           id="maxValue"
           onChange={maxValueChangeHandler}
@@ -105,7 +90,7 @@ export const SetCounter: React.FC<PropsType> = ({
       <div>
         <label htmlFor="startValue">Start value:</label>
         <input
-          className={finalStartValueStyles}
+          className={finalStyles}
           type="number"
           id="startValue"
           onChange={startValueChangeHandler}
