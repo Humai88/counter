@@ -6,7 +6,7 @@ import { Button } from "./components/Button";
 import { SetCounter } from "./components/SetCounter";
 
 function App() {
-  let [value, setValue] = useState<number>(0);
+  let [value, setValue] = useState<number | string>(0);
   let [error, setError] = useState<boolean>(false);
   let [limit, setLimit] = useState<number>(0);
 
@@ -23,7 +23,7 @@ function App() {
   }, [value]);
 
   const increaseValue = () => {
-    const nextValue = value + 1;
+    const nextValue = (value as number) + 1;
     setValue(nextValue);
     if (nextValue === limit) {
       setError(true);
@@ -35,19 +35,17 @@ function App() {
     setError(false);
   };
 
-  const onSetValues = (
-    startValue: number,
-    maxValue: number,
-    warning: string
-  ) => {
+  const onSetValues = (startValue: number, maxValue: number) => {
     setValue(startValue);
     setLimit(maxValue);
   };
-
+  const onSetWarning = (warning: string) => {
+    setValue(warning);
+  };
   return (
     <div className={styles.mainWrapper}>
       <Card className={styles.wrapper}>
-        <SetCounter onSetValues={onSetValues} />
+        <SetCounter onSetWarning={onSetWarning} onSetValues={onSetValues} />
       </Card>
       <Card className={styles.wrapper}>
         <Counter limit={error} value={value} />

@@ -4,14 +4,14 @@ import { Card } from "./Card";
 import { Button } from "./Button";
 
 type PropsType = {
-  onSetValues: (
-    enteredMaxValue: number,
-    enteredStartValue: number,
-    warningMessage: string
-  ) => void;
+  onSetValues: (enteredMaxValue: number, enteredStartValue: number) => void;
+  onSetWarning: (warning: string) => void;
 };
 
-export const SetCounter: React.FC<PropsType> = ({ onSetValues }) => {
+export const SetCounter: React.FC<PropsType> = ({
+  onSetValues,
+  onSetWarning,
+}) => {
   const [enteredStartValue, setEnteredStartValue] = useState<number>(0);
   const [enteredMaxValue, setEnteredMaxValue] = useState<number>(
     enteredStartValue + 1
@@ -21,6 +21,43 @@ export const SetCounter: React.FC<PropsType> = ({ onSetValues }) => {
   const [disable, setDisable] = useState<boolean>(true);
   let [warning, setWarning] = useState<string>("Enter values and press SET");
 
+  const maxValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    let enteredMaxtVal = +e.currentTarget.value;
+    setEnteredMaxValue(enteredMaxtVal);
+    if (enteredMaxtVal <= enteredStartValue) {
+      setMaxValueIsValid(false);
+      setStartValueIsValid(false);
+      setWarning("Incorrect value!");
+    } else {
+      setMaxValueIsValid(true);
+      setStartValueIsValid(true);
+      setWarning("Enter values and press SET");
+    }
+    onSetWarning(warning);
+    setDisable(false);
+  };
+
+  const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    let enteredStartVal = +e.currentTarget.value;
+    setEnteredStartValue(enteredStartVal);
+    if (enteredStartVal < 0) {
+      setStartValueIsValid(false);
+      setWarning("Incorrect value!");
+    } else {
+      setStartValueIsValid(true);
+      setWarning("Enter values and press SET");
+      setMaxValueIsValid(true);
+    }
+
+    onSetWarning(warning);
+    setDisable(false);
+  };
+
+  const onClickHandler = () => {
+    onSetValues(enteredStartValue, enteredMaxValue);
+    setDisable(true);
+  };
+
   const finalMaxValueStyles = `${styles.input} ${
     !maxValueIsValid ? styles.inValid : ""
   }`;
@@ -29,38 +66,6 @@ export const SetCounter: React.FC<PropsType> = ({ onSetValues }) => {
     !startValueIsValid ? styles.inValid : ""
   }`;
 
-  const maxValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setEnteredMaxValue(+e.currentTarget.value);
-    if (+e.currentTarget.value <= enteredStartValue) {
-      setMaxValueIsValid(false);
-      setWarning("Incorrect value!");
-    } else {
-      setMaxValueIsValid(true);
-      setWarning("Enter values and press SET");
-    }
-    setDisable(false);
-  };
-
-  const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setEnteredStartValue(+e.currentTarget.value);
-    if (+e.currentTarget.value < 0) {
-      setStartValueIsValid(false);
-      setWarning("Incorrect value!");
-    } else {
-      setStartValueIsValid(true);
-      setWarning("Enter values and press SET");
-    }
-
-    setDisable(false);
-  };
-
-  const onClickHandler = () => {
-    onSetValues(enteredStartValue, enteredMaxValue, warning);
-    console.log(warning);
-  };
-  const onBlurHandler = () => {
-    setDisable(true);
-  };
   return (
     <Card className={styles.wrapper}>
       <div>

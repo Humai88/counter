@@ -6,7 +6,6 @@
   position: absolute;
   margin-top: 1.8rem;
   height: 23rem;
-  // margin-bottom: 1rem;
 
   label {
     color: $color-light;
@@ -14,6 +13,7 @@
     font-weight: 700;
     align-self: center;
     margin-left: 2rem;
+    margin-bottom: 3rem;
   }
 
   div {
@@ -22,9 +22,9 @@
     grid-template-columns: 45% 40%;
   }
 }
-.input {
+input {
   outline: none;
-  margin: 1rem;
+  margin-bottom: 3rem;
   height: 2rem;
   font-size: 1.1rem;
   color: $color-main;
@@ -36,25 +36,17 @@
   text-align: center;
 }
 
-.errorInput {
-  border: 1px solid $color-red;
-  background: #f0bdbd;
-  font-size: 1rem;
-  margin: 1rem;
-  height: 2rem;
-  padding: 3px 7px;
-}
-
 .inValid {
   background-color: $color-red;
   color: $color-light;
 }
 .btnWrapper {
-  margin: 0 auto;
   border: 5px solid $color-main;
-
+  position: absolute;
   width: 39rem;
   height: 6rem;
+  margin: 0 auto;
+  // margin-top: 26.5rem;
 }
 .setBtn {
   margin-left: 70%;
