@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import styles from "./SetCounter.module.scss";
 import { Card } from "./Card";
 import { Button } from "./Button";
@@ -20,6 +20,30 @@ export const SetCounter: React.FC<PropsType> = ({
   const [startValueIsValid, setStartValueIsValid] = useState<boolean>(true);
   const [disable, setDisable] = useState<boolean>(true);
   let [warning, setWarning] = useState<string>("Enter values and press SET");
+
+  useEffect(() => {
+    let valueAsString = localStorage.getItem("max-value");
+    if (valueAsString) {
+      let newValue = JSON.parse(valueAsString);
+      setEnteredMaxValue(newValue);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("max-value", JSON.stringify(enteredMaxValue));
+  }, [enteredMaxValue]);
+
+  useEffect(() => {
+    let valueAsString = localStorage.getItem("start-value");
+    if (valueAsString) {
+      let newValue = JSON.parse(valueAsString);
+      setEnteredStartValue(newValue);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("start-value", JSON.stringify(enteredStartValue));
+  }, [enteredStartValue]);
 
   const maxValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let enteredMaxtVal = +e.currentTarget.value;
