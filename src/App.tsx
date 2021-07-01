@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Counter } from "./components/Counter";
 import { Card } from "./components/Card";
 import styles from "./App.module.scss";
@@ -9,18 +9,6 @@ function App() {
   let [value, setValue] = useState<number | string>(0);
   let [error, setError] = useState<boolean>(false);
   let [limit, setLimit] = useState<number>(0);
-
-  useEffect(() => {
-    let valueAsString = localStorage.getItem("counterValue");
-    if (valueAsString) {
-      let newValue = JSON.parse(valueAsString);
-      setValue(newValue);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("counterValue", JSON.stringify(value));
-  }, [value]);
 
   const increaseValue = () => {
     const nextValue = (value as number) + 1;
@@ -40,12 +28,8 @@ function App() {
     setLimit(maxValue);
   };
 
-  const onSetWarning = (isValid: boolean) => {
-    if (!isValid) {
-      setValue("Incorrect value!");
-    } else {
-      setValue("Enter values and press SET");
-    }
+  const onSetWarning = (warning: string) => {
+    setValue(warning);
   };
 
   return (
