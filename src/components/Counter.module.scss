@@ -9,10 +9,19 @@
 }
 .counter {
   padding-top: 4.1rem;
-  font-size: 3.9rem;
+  font-size: 5.4rem;
   font-weight: 500;
   color: $color-light;
 }
 .limit {
-  color: rgb(243, 60, 60);
+  color: rgb(241, 84, 84);
+}
+.text {
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+.textRed {
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgb(243, 98, 98);
 }

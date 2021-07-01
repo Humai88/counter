@@ -5,7 +5,7 @@ import { Button } from "./Button";
 
 type PropsType = {
   onSetValues: (enteredMaxValue: number, enteredStartValue: number) => void;
-  onSetWarning: (warning: boolean) => void;
+  onSetWarning: (isValid: boolean) => void;
 };
 
 export const SetCounter: React.FC<PropsType> = ({
@@ -51,6 +51,7 @@ export const SetCounter: React.FC<PropsType> = ({
     } else {
       setValueIsValid(true);
     }
+
     onSetWarning(valueIsValid);
     setDisable(false);
   };
@@ -58,12 +59,11 @@ export const SetCounter: React.FC<PropsType> = ({
   const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let enteredStartVal = +e.currentTarget.value;
     setEnteredStartValue(enteredStartVal);
-    if (enteredStartVal < 0) {
+    if (enteredStartVal < 0 || enteredStartVal >= enteredMaxValue) {
       setValueIsValid(false);
     } else {
       setValueIsValid(true);
     }
-
     onSetWarning(valueIsValid);
     setDisable(false);
   };

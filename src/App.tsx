@@ -40,11 +40,11 @@ function App() {
     setLimit(maxValue);
   };
 
-  const onSetWarning = (warning: boolean) => {
-    if (warning) {
-      setValue("Enter values and press SET");
-    } else {
+  const onSetWarning = (isValid: boolean) => {
+    if (!isValid) {
       setValue("Incorrect value!");
+    } else {
+      setValue("Enter values and press SET");
     }
   };
 
@@ -56,9 +56,21 @@ function App() {
       <Card className={styles.wrapper}>
         <Counter limit={error} value={value} />
         <Card className={styles.buttonsWrapper}>
-          <Button disabled={error} callback={increaseValue} title="Increase" />
           <Button
-            disabled={value === 0}
+            disabled={
+              error ||
+              value === "Incorrect value!" ||
+              value === "Enter values and press SET"
+            }
+            callback={increaseValue}
+            title="Increase"
+          />
+          <Button
+            disabled={
+              value === "Incorrect value!" ||
+              value === "Enter values and press SET" ||
+              value === 0
+            }
             callback={resetValueCallback}
             title="Reset"
           />

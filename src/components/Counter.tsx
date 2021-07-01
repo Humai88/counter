@@ -8,7 +8,9 @@ type PropsType = {
 };
 
 export const Counter: React.FC<PropsType> = ({ value, limit }) => {
-  const finalStyles = `${styles.counter} ${limit ? styles.limit : ""}`;
+  const finalStyles = `${styles.counter} ${limit ? styles.limit : ""} ${
+    value === "Incorrect value!" ? styles.textRed : ""
+  } ${value === "Enter values and press SET" ? styles.text : ""}`;
   return (
     <Card className={styles.wrapper}>
       <h2 className={finalStyles}>{value}</h2>
