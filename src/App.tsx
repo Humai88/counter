@@ -52,8 +52,7 @@ function App() {
           <Button
             disabled={
               value === "Incorrect value!" ||
-              value === "Enter values and press SET" ||
-              value === 0
+              value === "Enter values and press SET"
             }
             callback={resetValueCallback}
             title="Reset"
