@@ -4,12 +4,12 @@ import { Card } from "./Card";
 import { Button } from "./Button";
 import { saveState } from "./../localStorage";
 
-type PropsType = {
+type SetCounterPropsType = {
   onSetValues: (enteredMaxValue: number, enteredStartValue: number) => void;
   onSetWarning: (warning: string) => void;
 };
 
-export const SetCounter: React.FC<PropsType> = ({
+export const SetCounter: React.FC<SetCounterPropsType> = ({
   onSetValues,
   onSetWarning,
 }) => {
@@ -18,7 +18,7 @@ export const SetCounter: React.FC<PropsType> = ({
     enteredStartValue + 1
   );
   const [maxValueIsValid, setMaxValueIsValid] = useState<boolean>(true);
-  const [startValueIsValid, setstartValueIsValid] = useState<boolean>(true);
+  const [startValueIsValid, setStartValueIsValid] = useState<boolean>(true);
   const [disable, setDisable] = useState<boolean>(true);
   const [warningMessage, setWarningMessage] = useState<string>(
     "Enter values and press SET"
@@ -27,38 +27,45 @@ export const SetCounter: React.FC<PropsType> = ({
   const maxValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let enteredMaxtVal = +e.currentTarget.value;
     setEnteredMaxValue(enteredMaxtVal);
+    let isError = false;
     if (enteredMaxtVal <= enteredStartValue) {
       setMaxValueIsValid(false);
-      setstartValueIsValid(false);
-      setWarningMessage("Incorrect value!");
+      setStartValueIsValid(false);
+      isError = true;
     } else {
       setMaxValueIsValid(true);
-      setstartValueIsValid(true);
-      setWarningMessage("Enter values and press SET");
+      setStartValueIsValid(true);
     }
-
-    onSetWarning(warningMessage);
-    setDisable(false);
+    setWarningMessage(
+      isError ? "Incorrect value!" : "Enter values and press SET"
+    );
+    setDisable(isError);
   };
 
   const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let enteredStartVal = +e.currentTarget.value;
     setEnteredStartValue(enteredStartVal);
+    let isError = false;
     if (enteredStartVal < 0) {
-      setstartValueIsValid(false);
-      setWarningMessage("Incorrect value!");
+      setStartValueIsValid(false);
+      isError = true;
     } else if (enteredStartVal >= enteredMaxValue) {
       setMaxValueIsValid(false);
-      setstartValueIsValid(false);
-      setWarningMessage("Incorrect value!");
+      setStartValueIsValid(false);
+      isError = true;
     } else {
-      setstartValueIsValid(true);
+      setStartValueIsValid(true);
       setMaxValueIsValid(true);
-      setWarningMessage("Enter values and press SET");
     }
-    onSetWarning(warningMessage);
-    setDisable(false);
+    setWarningMessage(
+      isError ? "Incorrect value!" : "Enter values and press SET"
+    );
+    setDisable(isError);
   };
+
+  useEffect(() => {
+    onSetWarning(warningMessage);
+  }, [warningMessage]);
 
   useEffect(() => {
     let valueAsString = localStorage.getItem("max-value");
@@ -66,12 +73,9 @@ export const SetCounter: React.FC<PropsType> = ({
       let newValue = JSON.parse(valueAsString);
       setEnteredMaxValue(newValue);
     }
-  }, []);
-
-  useEffect(() => {
-    let valueAsString = localStorage.getItem("start-value");
-    if (valueAsString) {
-      let newValue = JSON.parse(valueAsString);
+    let valueAsString2 = localStorage.getItem("start-value");
+    if (valueAsString2) {
+      let newValue = JSON.parse(valueAsString2);
       setEnteredStartValue(newValue);
     }
   }, []);

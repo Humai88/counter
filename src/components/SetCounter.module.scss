@@ -28,7 +28,7 @@ input {
   height: 2rem;
   font-size: 1.1rem;
   color: $color-main;
-  border: 1px solid $color-main;
+  border: 2px solid $color-main;
   background: $color-light;
   padding: 2px 7px;
   padding: 5px;
@@ -38,7 +38,7 @@ input {
 
 .inValid {
   background-color: $color-red;
-  border: 1px solid rgb(248, 76, 76);
+  border: 2px solid rgb(248, 76, 76);
   color: rgb(248, 76, 76);
 }
 .btnWrapper {

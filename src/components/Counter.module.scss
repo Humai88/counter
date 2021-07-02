@@ -6,6 +6,7 @@
   position: absolute;
   margin-top: 1.8rem;
   height: 23rem;
+  position: absolute;
 }
 .counter {
   padding-top: 4.1rem;
@@ -24,4 +25,18 @@
   font-size: 3rem;
   font-weight: 700;
   color: rgb(243, 98, 98);
+}
+.buttonsWrapper {
+  border: 5px solid $color-main;
+  position: absolute;
+  width: 39rem;
+  height: 6rem;
+  margin-top: 24.8rem;
+  display: flex;
+  justify-content: space-around;
+}
+.counterWrapper {
+  width: 40rem;
+  height: 20rem;
+  position: absolute;
 }
