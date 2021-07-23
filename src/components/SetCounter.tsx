@@ -46,21 +46,6 @@ export const SetCounter: React.FC<SetCounterPropsType> = ({
   };
 
   useEffect(() => {
-    let valueAsString = localStorage.getItem("max-value");
-    let newValues = { ...values };
-    if (valueAsString) {
-      let newValue = JSON.parse(valueAsString);
-      newValues.enteredMaxValue = newValue;
-    }
-    let valueAsString2 = localStorage.getItem("start-value");
-    if (valueAsString2) {
-      let newValue = JSON.parse(valueAsString2);
-      newValues.enteredStartValue = newValue;
-    }
-    setValues(newValues);
-  }, []); // Local storage
-
-  useEffect(() => {
     let isError = false;
     if (
       values.enteredMaxValue <= values.enteredStartValue ||
@@ -75,12 +60,26 @@ export const SetCounter: React.FC<SetCounterPropsType> = ({
       isError ? "Incorrect value!" : "Enter values and press SET"
     );
     setDisable(isError);
-  }, [values.enteredMaxValue, values.enteredStartValue]);
+  }, [values.enteredStartValue, values.enteredMaxValue]);
 
   useEffect(() => {
     onSetWarning(warningMessage);
-  }, [warningMessage, onSetWarning]);
+  }, [warningMessage]);
 
+  useEffect(() => {
+    let valueAsString = localStorage.getItem("max-value");
+    let newValues = { ...values };
+    if (valueAsString) {
+      let newValue = JSON.parse(valueAsString);
+      newValues.enteredMaxValue = newValue;
+    }
+    let valueAsString2 = localStorage.getItem("start-value");
+    if (valueAsString2) {
+      let newValue = JSON.parse(valueAsString2);
+      newValues.enteredStartValue = newValue;
+    }
+    setValues(newValues);
+  }, []); // Local storage
   const onClickHandler = () => {
     // dispatch(setStartValueAC(values.enteredStartValue, values.enteredMaxValue));
     onSetValues(values.enteredStartValue, values.enteredMaxValue);
