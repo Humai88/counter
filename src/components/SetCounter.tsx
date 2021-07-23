@@ -3,117 +3,120 @@ import styles from "./SetCounter.module.scss";
 import { Card } from "./Card";
 import { Button } from "./Button";
 import { saveState } from "./../localStorage";
+// import { useSelector, useDispatch } from "react-redux";
+// import { RootStateType } from "./../store/counterReducer";
+// import { setStartValueAC } from "./../store/counterReducer";
 
 type SetCounterPropsType = {
   onSetValues: (enteredMaxValue: number, enteredStartValue: number) => void;
   onSetWarning: (warning: string) => void;
-};
+}; // Props types
+
+export type InitialValuesType = {
+  enteredStartValue: number;
+  enteredMaxValue: number;
+}; // Initial state type
 
 export const SetCounter: React.FC<SetCounterPropsType> = ({
   onSetValues,
   onSetWarning,
 }) => {
-  const [enteredStartValue, setEnteredStartValue] = useState<number>(0);
-  const [enteredMaxValue, setEnteredMaxValue] = useState<number>(
-    enteredStartValue + 1
-  );
-  const [maxValueIsValid, setMaxValueIsValid] = useState<boolean>(true);
-  const [startValueIsValid, setStartValueIsValid] = useState<boolean>(true);
-  const [disable, setDisable] = useState<boolean>(true);
+  // const startValue = useSelector(
+  //   (state: RootStateType) => state.enteredStartValue
+  // );
+  // const dispatch = useDispatch();
+
+  const [values, setValues] = useState<InitialValuesType>({
+    enteredStartValue: 0,
+    enteredMaxValue: 1,
+  }); // Set values for two inputs
+  const [valueIsValid, setValueIsValid] = useState<boolean>(true); //Check for correct value
+  const [disable, setDisable] = useState<boolean>(true); // State for button
   const [warningMessage, setWarningMessage] = useState<string>(
     "Enter values and press SET"
-  );
+  ); // Set message when got incorrect value in inputs
 
-  const maxValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    let enteredMaxtVal = +e.currentTarget.value;
-    setEnteredMaxValue(enteredMaxtVal);
-    let isError = false;
-    if (enteredMaxtVal <= enteredStartValue) {
-      setMaxValueIsValid(false);
-      setStartValueIsValid(false);
-      isError = true;
-    } else {
-      setMaxValueIsValid(true);
-      setStartValueIsValid(true);
-    }
-    setWarningMessage(
-      isError ? "Incorrect value!" : "Enter values and press SET"
-    );
-    setDisable(isError);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    const newValue = +value;
+    setValues({
+      ...values,
+      [name]: newValue,
+    });
   };
-
-  const startValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    let enteredStartVal = +e.currentTarget.value;
-    setEnteredStartValue(enteredStartVal);
-    let isError = false;
-    if (enteredStartVal < 0) {
-      setStartValueIsValid(false);
-      isError = true;
-    } else if (enteredStartVal >= enteredMaxValue) {
-      setMaxValueIsValid(false);
-      setStartValueIsValid(false);
-      isError = true;
-    } else {
-      setStartValueIsValid(true);
-      setMaxValueIsValid(true);
-    }
-    setWarningMessage(
-      isError ? "Incorrect value!" : "Enter values and press SET"
-    );
-    setDisable(isError);
-  };
-
-  useEffect(() => {
-    onSetWarning(warningMessage);
-  }, [warningMessage]);
 
   useEffect(() => {
     let valueAsString = localStorage.getItem("max-value");
+    let newValues = { ...values };
     if (valueAsString) {
       let newValue = JSON.parse(valueAsString);
-      setEnteredMaxValue(newValue);
+      newValues.enteredMaxValue = newValue;
     }
     let valueAsString2 = localStorage.getItem("start-value");
     if (valueAsString2) {
       let newValue = JSON.parse(valueAsString2);
-      setEnteredStartValue(newValue);
+      newValues.enteredStartValue = newValue;
     }
-  }, []);
+    setValues(newValues);
+  }, []); // Local storage
+
+  useEffect(() => {
+    let isError = false;
+    if (
+      values.enteredMaxValue <= values.enteredStartValue ||
+      values.enteredStartValue < 0
+    ) {
+      setValueIsValid(false);
+      isError = true;
+    } else {
+      setValueIsValid(true);
+    }
+    setWarningMessage(
+      isError ? "Incorrect value!" : "Enter values and press SET"
+    );
+    setDisable(isError);
+  }, [values.enteredMaxValue, values.enteredStartValue]);
+
+  useEffect(() => {
+    onSetWarning(warningMessage);
+  }, [warningMessage, onSetWarning]);
 
   const onClickHandler = () => {
-    onSetValues(enteredStartValue, enteredMaxValue);
-    saveState<number>("start-value", enteredStartValue);
-    saveState<number>("max-value", enteredMaxValue);
+    // dispatch(setStartValueAC(values.enteredStartValue, values.enteredMaxValue));
+    onSetValues(values.enteredStartValue, values.enteredMaxValue);
+    saveState<number>("start-value", values.enteredStartValue);
+    saveState<number>("max-value", values.enteredMaxValue);
     setDisable(true);
-  };
+  }; // Set button handler
 
-  const maxStyles = `${styles.input} ${!maxValueIsValid ? styles.inValid : ""}`;
-  const startStyles = `${styles.input} ${
-    !startValueIsValid ? styles.inValid : ""
+  const validationStyles = `${styles.input} ${
+    !valueIsValid ? styles.inValid : ""
   }`;
 
   return (
     <Card className={styles.wrapper}>
-      <div>
-        <label htmlFor="maxValue">Max value:</label>
-        <input
-          className={maxStyles}
-          type="number"
-          id="maxValue"
-          onChange={maxValueChangeHandler}
-          value={enteredMaxValue}
-        />
-      </div>
-      <div>
-        <label htmlFor="startValue">Start value:</label>
-        <input
-          className={startStyles}
-          type="number"
-          id="startValue"
-          onChange={startValueChangeHandler}
-          value={enteredStartValue}
-        />
-      </div>
+      <form>
+        <div>
+          <label htmlFor="maxValue">Max value:</label>
+          <input
+            className={validationStyles}
+            type="number"
+            name="enteredMaxValue"
+            onChange={handleInputChange}
+            value={values.enteredMaxValue}
+          />
+        </div>
+        <div>
+          <label htmlFor="startValue">Start value:</label>
+          <input
+            className={validationStyles}
+            type="number"
+            name="enteredStartValue"
+            onChange={handleInputChange}
+            value={values.enteredStartValue}
+          />
+        </div>
+      </form>
       <Card className={styles.btnWrapper}>
         <Button
           className={styles.setBtn}
