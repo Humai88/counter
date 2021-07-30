@@ -28,11 +28,9 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
   onSetWarning,
 }) => {
   const state = useSelector<AppStoreType, SetCounterStateType>(
-    (state) => state.counter
+    (state) => state
   );
-  const valueValid = state.isValid;
-  const warningMessage = state.warningMessage;
-  const disable = state.disable;
+
   const dispatch = useDispatch();
 
   const [values, setValues] = useState<InitialValuesType>({
@@ -59,8 +57,8 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
   }, [values.enteredStartValue, values.enteredMaxValue]);
 
   useEffect(() => {
-    onSetWarning(warningMessage);
-  }, [warningMessage]);
+    onSetWarning(state.warningMessage);
+  }, [state.warningMessage]);
 
   useEffect(() => {
     let valueAsString = localStorage.getItem("max-value");
@@ -87,7 +85,7 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
   }; // Set button handler
 
   const validationStyles = `${styles.input} ${
-    !valueValid ? styles.inValid : ""
+    !state.isValid ? styles.inValid : ""
   }`;
 
   return (
@@ -118,7 +116,7 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
         <Button
           className={styles.setBtn}
           type="submit"
-          disabled={disable}
+          disabled={state.disable}
           callback={onClickHandler}
           title="Set"
         />

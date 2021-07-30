@@ -14,17 +14,15 @@ import {
 
 function App() {
   const state = useSelector<AppStoreType, SetCounterStateType>(
-    (state) => state.counter
+    (state) => state
   );
-  const value = state.value;
-  const error = state.error;
-  const limit = state.limit;
+
   const dispatch = useDispatch();
 
   const increaseValue = () => {
-    const nextValue = (value as number) + 1;
+    const nextValue = (state.value as number) + 1;
     dispatch(setValueAC(nextValue));
-    if (nextValue === limit[1]) {
+    if (nextValue === state.limit[1]) {
       dispatch(setErrorAC(true));
     }
   };
@@ -33,12 +31,13 @@ function App() {
     dispatch(setLimitAC([0, 0]));
     dispatch(setErrorAC(false));
     dispatch(setValueAC(0));
-    dispatch(setDisableAC(true));
+    dispatch(setDisableAC(false));
   };
 
   const onSetValues = (startValue: number, maxValue: number) => {
     dispatch(setValueAC(startValue));
     dispatch(setLimitAC([startValue, maxValue]));
+    dispatch(setDisableAC(true));
   };
 
   const onSetWarning = (warning: string) => {
@@ -55,11 +54,11 @@ function App() {
       </Card>
       <Card className={styles.wrapper}>
         <Counter
-          error={error}
+          error={state.error}
           increaseValueCallback={increaseValue}
           resetValueCallback={resetValue}
-          limit={error}
-          value={value}
+          limit={state.error}
+          value={state.value}
         />
       </Card>
     </div>
