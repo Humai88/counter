@@ -1,24 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
-import App from "./App";
+import App from "./AppRedux";
+import { Provider } from "react-redux";
+import store from "./store/store";
+// import AppRedux from "./AppRedux";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById("root")
 );
 
-// import ReactDOM from "react-dom";
-// import "./index.scss";
-// import App from "./App";
-// import { Provider } from "react-redux";
-// import store from "./store/counterReducer";
-
 // ReactDOM.render(
-//   <Provider store={store}>
+//   <React.StrictMode>
 //     <App />
-//   </Provider>,
+//   </React.StrictMode>,
 //   document.getElementById("root")
 // );

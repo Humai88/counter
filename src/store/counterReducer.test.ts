@@ -1,4 +1,4 @@
-import { counterReducer } from "./counterReducer";
+import { reducer } from "./counterReducer";
 test("status of specified task should be changed", () => {
   const startState = {
     todolistId1: [

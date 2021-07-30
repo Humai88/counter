@@ -2,7 +2,16 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import styles from "./SetCounter.module.scss";
 import { Card } from "./Card";
 import { Button } from "./Button";
-import { saveState } from "./../localStorage";
+import { saveState } from "../localStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { AppStoreType } from "../store/store";
+import {
+  setStartValuesAC,
+  SetCounterStateType,
+  setWarningAC,
+  setDisableAC,
+  setValidationAC,
+} from "../store/counterReducer";
 
 type SetCounterPropsType = {
   onSetValues: (enteredMaxValue: number, enteredStartValue: number) => void;
@@ -14,20 +23,22 @@ export type InitialValuesType = {
   enteredMaxValue: number;
 }; // Initial state type
 
-export const SetCounter: React.FC<SetCounterPropsType> = ({
+export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
   onSetValues,
   onSetWarning,
 }) => {
+  const state = useSelector<AppStoreType, SetCounterStateType>(
+    (state) => state.counter
+  );
+  const valueValid = state.isValid;
+  const warningMessage = state.warningMessage;
+  const disable = state.disable;
+  const dispatch = useDispatch();
+
   const [values, setValues] = useState<InitialValuesType>({
     enteredStartValue: 0,
     enteredMaxValue: 1,
   }); // Set values for two inputs
-
-  const [valueIsValid, setValueIsValid] = useState<boolean>(true); //Check for correct value
-  const [disable, setDisable] = useState<boolean>(true); // State for button
-  const [warningMessage, setWarningMessage] = useState<string>(
-    "Enter values and press SET"
-  ); // Set message when got incorrect value in inputs
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -39,20 +50,12 @@ export const SetCounter: React.FC<SetCounterPropsType> = ({
   };
 
   useEffect(() => {
-    let isError = false;
-    if (
-      values.enteredMaxValue <= values.enteredStartValue ||
-      values.enteredStartValue < 0
-    ) {
-      setValueIsValid(false);
-      isError = true;
-    } else {
-      setValueIsValid(true);
-    }
-    setWarningMessage(
-      isError ? "Incorrect value!" : "Enter values and press SET"
+    dispatch(
+      setStartValuesAC(values.enteredStartValue, values.enteredMaxValue)
     );
-    setDisable(isError);
+    dispatch(setWarningAC(values.enteredStartValue, values.enteredMaxValue));
+    dispatch(setDisableAC(false));
+    dispatch(setValidationAC(values.enteredStartValue, values.enteredMaxValue));
   }, [values.enteredStartValue, values.enteredMaxValue]);
 
   useEffect(() => {
@@ -75,14 +78,16 @@ export const SetCounter: React.FC<SetCounterPropsType> = ({
   }, []); // Local storage
 
   const onClickHandler = () => {
+    dispatch(
+      setStartValuesAC(values.enteredStartValue, values.enteredMaxValue)
+    );
     onSetValues(values.enteredStartValue, values.enteredMaxValue);
     saveState<number>("start-value", values.enteredStartValue);
     saveState<number>("max-value", values.enteredMaxValue);
-    setDisable(true);
   }; // Set button handler
 
   const validationStyles = `${styles.input} ${
-    !valueIsValid ? styles.inValid : ""
+    !valueValid ? styles.inValid : ""
   }`;
 
   return (
