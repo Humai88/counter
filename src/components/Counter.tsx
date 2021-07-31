@@ -1,5 +1,4 @@
 import styles from "./Counter.module.scss";
-import { Card } from "./Card";
 import React from "react";
 import { Button } from "./Button";
 
@@ -22,11 +21,11 @@ export const Counter: React.FC<CounterPropsType> = ({
     value === "Incorrect value!" ? styles.textRed : ""
   } ${value === "Enter values and press SET" ? styles.text : ""}`;
   return (
-    <Card className={styles.wrapper}>
+    <div className={styles.wrapper}>
       <div className={styles.counterWrapper}>
         <h2 className={finalStyles}>{value}</h2>
       </div>
-      <Card className={styles.buttonsWrapper}>
+      <div className={styles.buttonsWrapper}>
         <Button
           disabled={
             error ||
@@ -44,7 +43,7 @@ export const Counter: React.FC<CounterPropsType> = ({
           callback={resetValueCallback}
           title="Reset"
         />
-      </Card>
-    </Card>
+      </div>
+    </div>
   );
 };

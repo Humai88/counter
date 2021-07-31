@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import styles from "./SetCounter.module.scss";
-import { Card } from "./Card";
 import { Button } from "./Button";
 import { saveState } from "../localStorage";
 import { useDispatch, useSelector } from "react-redux";
@@ -80,9 +79,9 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
   }`;
 
   return (
-    <Card className={styles.wrapper}>
-      <form>
-        <div>
+    <div className={styles.wrapper}>
+      <form className={styles.form}>
+        <div className={styles.input}>
           <label htmlFor="maxValue">Max value:</label>
           <input
             className={validationStyles}
@@ -92,7 +91,7 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
             value={values.enteredMaxValue}
           />
         </div>
-        <div>
+        <div className={styles.input}>
           <label htmlFor="startValue">Start value:</label>
           <input
             className={validationStyles}
@@ -103,7 +102,7 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
           />
         </div>
       </form>
-      <Card className={styles.btnWrapper}>
+      <div className={styles.btnWrapper}>
         <Button
           className={styles.setBtn}
           type="submit"
@@ -111,7 +110,7 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
           callback={onClickHandler}
           title="Set"
         />
-      </Card>
-    </Card>
+      </div>
+    </div>
   );
 };

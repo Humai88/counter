@@ -7,7 +7,7 @@ export type SetCounterStateType = {
   value: number | string;
   error: boolean;
   limit: number[];
-};
+}; //Type for initial state
 const initialState: SetCounterStateType = {
   enteredStartValue: 0,
   enteredMaxValue: 1,
@@ -17,7 +17,7 @@ const initialState: SetCounterStateType = {
   value: 0,
   error: false,
   limit: [0, 5],
-};
+}; // initial state
 export const reducer = (
   state = initialState,
   action: ActionTasksTypes
@@ -74,7 +74,7 @@ export type ActionTasksTypes =
   | ReturnType<typeof setErrorAC>
   | ReturnType<typeof setLimitAC>
   | ReturnType<typeof setValueAC>
-  | ReturnType<typeof setDisableAC>;
+  | ReturnType<typeof setDisableAC>; // Type of actions
 
 export const setStartValuesAC = (
   enteredStartVal: number,

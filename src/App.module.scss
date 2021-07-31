@@ -4,53 +4,28 @@ body {
   background-color: $color-light;
 }
 .mainWrapper {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 80%;
   margin: 0 auto;
   font-family: "Comfortaa";
+  text-align: center;
+  border-radius: 15px;
 }
 .wrapper {
   border: 5px solid $color-main;
   width: 45rem;
   height: 35rem;
-  margin: 0 auto;
   margin-top: 5rem;
-  background-color: $color-light;
-}
-.buttonsWrapper {
-  border: 5px solid $color-main;
-  position: absolute;
-  width: 39rem;
-  height: 6rem;
-  margin-left: 2.6rem;
-  margin-top: 26.5rem;
   display: flex;
-  justify-content: space-around;
-}
-.wrapperSet {
-  border: 5px solid $color-main;
-  display: grid;
-  width: 45rem;
-  height: 35rem;
-  margin: 0 auto;
-  margin-top: 5rem;
+  justify-content: center;
+  align-items: center;
   background-color: $color-light;
+  text-align: center;
+  border-radius: 15px;
 }
-.counterWrapper {
-  background-color: $color-main;
-  width: 40rem;
-  margin-left: 2.5rem;
-  position: absolute;
-  margin-top: 1.8rem;
-  height: 23rem;
-}
-.counter {
-  padding-top: 4.1rem;
-  font-size: 5.9rem;
-  font-weight: 500;
-  color: $color-light;
-}
+
 .limit {
   color: rgb(243, 60, 60);
   font-weight: 700;

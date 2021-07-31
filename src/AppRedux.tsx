@@ -1,5 +1,4 @@
 import { Counter } from "./components/Counter";
-import { Card } from "./components/Card";
 import styles from "./App.module.scss";
 import { SetCounterRedux } from "./components/SetCounterRedux";
 import { AppStoreType } from "./store/store";
@@ -46,13 +45,13 @@ function App() {
 
   return (
     <div className={styles.mainWrapper}>
-      <Card className={styles.wrapper}>
+      <div className={styles.wrapper}>
         <SetCounterRedux
           onSetWarning={onSetWarning}
           onSetValues={onSetValues}
         />
-      </Card>
-      <Card className={styles.wrapper}>
+      </div>
+      <div className={styles.wrapper}>
         <Counter
           error={state.error}
           increaseValueCallback={increaseValue}
@@ -60,7 +59,7 @@ function App() {
           limit={state.error}
           value={state.value}
         />
-      </Card>
+      </div>
     </div>
   );
 }
