@@ -5,13 +5,7 @@ import { Button } from "./Button";
 import { saveState } from "../localStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { AppStoreType } from "../store/store";
-import {
-  setStartValuesAC,
-  SetCounterStateType,
-  setWarningAC,
-  setDisableAC,
-  setValidationAC,
-} from "../store/counterReducer";
+import { setStartValuesAC, SetCounterStateType } from "../store/counterReducer";
 
 type SetCounterPropsType = {
   onSetValues: (enteredMaxValue: number, enteredStartValue: number) => void;
@@ -51,9 +45,6 @@ export const SetCounterRedux: React.FC<SetCounterPropsType> = ({
     dispatch(
       setStartValuesAC(values.enteredStartValue, values.enteredMaxValue)
     );
-    dispatch(setWarningAC(values.enteredStartValue, values.enteredMaxValue));
-    dispatch(setDisableAC(false));
-    dispatch(setValidationAC(values.enteredStartValue, values.enteredMaxValue));
   }, [values.enteredStartValue, values.enteredMaxValue]);
 
   useEffect(() => {

@@ -28,24 +28,21 @@ export const reducer = (
         ...state,
         enteredStartValue: action.payload.enteredStartVal,
         enteredMaxValue: action.payload.enteredMaxVal,
-      };
-    case "SET_START_VALIDATION":
-      return {
-        ...state,
         isValid:
           action.payload.enteredStartVal >= action.payload.enteredMaxVal ||
           action.payload.enteredStartVal < 0
             ? false
             : true,
-      };
-    case "SET_WARNING":
-      return {
-        ...state,
         warningMessage:
           action.payload.enteredStartVal >= action.payload.enteredMaxVal ||
           action.payload.enteredStartVal < 0
             ? "Incorrect value!"
             : "Enter values and press SET",
+        disable:
+          action.payload.enteredStartVal >= action.payload.enteredMaxVal ||
+          action.payload.enteredStartVal < 0
+            ? true
+            : false,
       };
     case "SET_DISABLE":
       return {
@@ -65,7 +62,6 @@ export const reducer = (
     case "SET_VALUE":
       return {
         ...state,
-
         value: action.payload.value,
       };
     default:
@@ -78,8 +74,6 @@ export type ActionTasksTypes =
   | ReturnType<typeof setErrorAC>
   | ReturnType<typeof setLimitAC>
   | ReturnType<typeof setValueAC>
-  | ReturnType<typeof setValidationAC>
-  | ReturnType<typeof setWarningAC>
   | ReturnType<typeof setDisableAC>;
 
 export const setStartValuesAC = (
@@ -116,30 +110,6 @@ export const setValueAC = (value: number | string) => {
     type: "SET_VALUE",
     payload: {
       value,
-    },
-  } as const;
-};
-export const setValidationAC = (
-  enteredStartVal: number,
-  enteredMaxVal: number
-) => {
-  return {
-    type: "SET_START_VALIDATION",
-    payload: {
-      enteredStartVal,
-      enteredMaxVal,
-    },
-  } as const;
-};
-export const setWarningAC = (
-  enteredStartVal: number,
-  enteredMaxVal: number
-) => {
-  return {
-    type: "SET_WARNING",
-    payload: {
-      enteredStartVal,
-      enteredMaxVal,
     },
   } as const;
 };
