@@ -28,11 +28,10 @@ export const reducer = (
         ...state,
         enteredStartValue: action.payload.enteredStartVal,
         enteredMaxValue: action.payload.enteredMaxVal,
-        isValid:
+        isValid: !(
           action.payload.enteredStartVal >= action.payload.enteredMaxVal ||
           action.payload.enteredStartVal < 0
-            ? false
-            : true,
+        ),
         warningMessage:
           action.payload.enteredStartVal >= action.payload.enteredMaxVal ||
           action.payload.enteredStartVal < 0
@@ -40,9 +39,7 @@ export const reducer = (
             : "Enter values and press SET",
         disable:
           action.payload.enteredStartVal >= action.payload.enteredMaxVal ||
-          action.payload.enteredStartVal < 0
-            ? true
-            : false,
+          action.payload.enteredStartVal < 0,
       };
     case "SET_DISABLE":
       return {
